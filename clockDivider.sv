@@ -1,5 +1,5 @@
 
-module clk_div_100(
+module clockDivider(
     input  logic clk, // input clock
     output logic clk_out // divided clock output
 );
@@ -21,5 +21,6 @@ module clk_div_100(
         end
     end
     endmodule
+
 
 

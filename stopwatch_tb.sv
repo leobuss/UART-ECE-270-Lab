@@ -51,7 +51,7 @@ module stopwatch_tb();
     endtask
 
     initial begin
-        $dumpfile("waves/stopwatch.vcd");
+        $dumpfile("stopwatch.vcd");
         $dumpvars(0, stopwatch_tb);
 
         clk = 0;
@@ -78,4 +78,5 @@ module stopwatch_tb();
     end
 
 endmodule
+
 

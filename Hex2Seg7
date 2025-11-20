@@ -1,0 +1,6 @@
+module hex2seg7(input  logic [3:0] out,output logic [7:0] segment
+);
+	hex2seg7 b2v_inst0(
+		.bin(out),
+		.leds(segment));
+endmodule

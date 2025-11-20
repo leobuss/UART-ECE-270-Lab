@@ -52,6 +52,7 @@ module clock(
             endcase
         end
         
+        if (sel = 2'd1) begin
         // handle changing hour place
         if (mode == HOURS) begin
             if (inc) begin
@@ -83,7 +84,7 @@ module clock(
                     next_minutes = minutes - 1;
             end
         end
-        
+        end
         // otherwise, increment clock, handling any overflow
         if (mode == CLOCK) begin
             if (en) begin

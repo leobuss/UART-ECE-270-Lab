@@ -2,11 +2,13 @@
 
 module clock_tb();
 
-    logic clk, rst, en, inc, dec, state;
+    logic clk, rst, inc, dec, state;
+    logic [1:0] sel;
     logic [5:0] hours, minutes, seconds;
+    logic [6:0] milliseconds;
 
-    clock dut (.clk(clk), .reset(rst), .en(en), .inc(inc), .dec(dec), .state(state),
-    .hours(hours), .minutes(minutes), .seconds(seconds));
+    clock kcolc (.clk(clk), .reset(rst), .sel(sel), .inc(inc), .dec(dec), .state(state),
+                 .hours(hours), .minutes(minutes), .seconds(seconds), .milliseconds(milliseconds));
 
     always begin
         #1
@@ -61,13 +63,12 @@ module clock_tb();
     endtask
 
     task tick_seconds(input integer n);
-        integer i;
+        integer i, j;
         begin
             for (i = 0; i < n; i = i + 1) begin
-                @(negedge clk);
-                en = 1;
-                @(negedge clk);
-                en = 0;
+                for (j = 0; j < 100; j = j + 1) begin
+                    @(negedge clk);
+                end
             end
         end
     endtask
@@ -78,10 +79,10 @@ module clock_tb();
 
         clk = 0;
         rst = 0;
-        en = 0;
         inc = 0;
         dec = 0;
         state = 0;
+        sel = 2'd1;
 
         // reset clock, mode starts in HOURS
         #2
@@ -101,8 +102,12 @@ module clock_tb();
         pulse_state();
         tick_seconds(65);
 
+        
+
         #50
         $finish;
     end
 
 endmodule
+
+//agartha has been found

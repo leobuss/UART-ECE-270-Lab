@@ -57,7 +57,7 @@ module stopwatch_tb();
         clk = 0;
         rst = 0;
         start = 0;
-        sel = 2'd2;
+        sel = 2'd3;
 
         #2
         reset();
@@ -78,6 +78,7 @@ module stopwatch_tb();
     end
 
 endmodule
+
 
 
 

@@ -18,7 +18,7 @@ module clock(
     mode_t mode, next_mode;
     
     //flip flop
-    always_ff @ (posedge clk, posedge reset) 
+    always_ff @ (posedge clk, posedge reset) begin
         if (reset) begin
             hours <= 6'd0;
             minutes <= 6'd0;

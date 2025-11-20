@@ -10,6 +10,7 @@ module clockDivider(
         clk_out = 1'b0;
     end
 
+    
     always_ff @(posedge clk) begin
         if (count == 7'd99) begin
             count   <= 7'd0;
@@ -21,6 +22,7 @@ module clockDivider(
         end
     end
     endmodule
+
 
 
 

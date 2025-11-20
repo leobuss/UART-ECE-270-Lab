@@ -56,7 +56,7 @@ module clock(
         // handle changing hour place
         if (mode == HOURS) begin
             if (inc) begin
-                if (hours == 6'd23)
+                if (hours == 6'd23) //gurt yo!
                     next_hours = 6'd0;
                 else 
                     next_hours = hours + 1;

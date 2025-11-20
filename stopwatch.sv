@@ -4,6 +4,7 @@ module stopwatch(
     input logic reset, //reset active high
     input logic en, // enable (divided clock)
     input logic start, // button to start/stop
+    input logic [2:0] sel,
     output logic [5:0] hours, // hours place
     output logic [5:0] minutes, // minutes plalce
     output logic [5:0] seconds // seconds place
@@ -38,7 +39,7 @@ module stopwatch(
         next_seconds = seconds;
         next_mode = mode;
         
-        if (start) begin
+        if (start && sel != 2'd2) begin
             case (mode)
                 STOPPED: next_mode = RUNNING;
                 RUNNING: next_mode = STOPPED;

@@ -8,9 +8,11 @@ module timer(
     output logic [5:0] hours, // hours place
     output logic [5:0] minutes, // minutes plalce
     output logic [5:0] seconds, // seconds place
-    output logic [6:0] milliseconds, // decimal places
+    //output logic [6:0] milliseconds, // decimal places
     output logic done // 1 when timer has expired
 );
+
+    logic [6:0] milliseconds;
 
     typedef enum logic [1:0] {HOURS, MINUTES, CLOCK} mode_t;
     typedef enum logic [1:0] {STOPPED, RUNNING, EXPIRED} run_t;

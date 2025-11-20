@@ -8,10 +8,12 @@ module clock(
     output logic [5:0] hours, // hours place
     output logic [5:0] minutes, // minutes plalce
     output logic [5:0] seconds, // seconds place
-    output logic [6:0] milliseconds // milliseconds placee
+    //output logic [6:0] milliseconds // milliseconds placee
     
 
 );
+
+    logic [6:0] milliseconds // milliseconds placee
 
     // local variables
     typedef enum logic [1:0] {HOURS, MINUTES, CLOCK} mode_t;

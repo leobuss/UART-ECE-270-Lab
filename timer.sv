@@ -4,7 +4,7 @@ module timer(
     input logic inc, dec, // either increase or decrease
     input logic state, // button to increment mode or clear expired time
     input logic start, // button to start/stop
-    input logic [1:0] sel, // needs to be 11 in order for anything to run in this module 
+    input logic [1:0] sel, // needs to be 10 in order for anything to run in this module 
     output logic [5:0] hours, // hours place
     output logic [5:0] minutes, // minutes plalce
     output logic [5:0] seconds, // seconds place
@@ -157,5 +157,6 @@ module timer(
         end
     end
 endmodule
+
 
 

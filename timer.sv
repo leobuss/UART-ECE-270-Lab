@@ -90,14 +90,14 @@ module timer(
                     if (hours == 6'd23)
                         next_hours = 6'd0;
                     else 
-                        next_hours = hours + 1;
+                        next_hours = hours + 6'd1;
                 end
                 else if (dec) begin
                     next_done = 1'b0;
                     if (hours == 6'd0)
                         next_hours = 6'd23;
                     else 
-                        next_hours = hours - 1;
+                        next_hours = hours - 6'd1;
                 end
             end
             
@@ -107,14 +107,14 @@ module timer(
                     if (minutes == 6'd59)
                         next_minutes = 6'd0;
                     else 
-                        next_minutes = minutes + 1;
+                        next_minutes = minutes + 6'd1;
                 end
                 else if (dec) begin
                     next_done = 1'b0;
                     if (minutes == 6'd0)
                         next_minutes = 6'd59;
                     else 
-                        next_minutes = minutes - 1;
+                        next_minutes = minutes - 6'd1;
                 end
             end
         end
@@ -122,7 +122,7 @@ module timer(
             // already at zero
             if (hours == 6'd0 && minutes == 6'd0 && seconds == 6'd0 && milliseconds == 7'd0) begin
                 next_run_state = EXPIRED;
-                next_done      = 1'b1;
+                next_done = 1'b1;
             end
             else begin
                 // decrement 0.01s
@@ -135,25 +135,26 @@ module timer(
                             if (hours == 6'd0)
                                 next_hours = 6'd0;
                             else
-                                next_hours = hours - 1;
+                                next_hours = hours - 6'd1;
                         end
                         else
-                            next_minutes = minutes - 1;
+                            next_minutes = minutes - 6'd1;
                     end
                     else
-                        next_seconds = seconds - 1;
+                        next_seconds = seconds - 6'd1;
                 end
                 else begin
-                    next_milliseconds = milliseconds - 1;
+                    next_milliseconds = milliseconds - 7'd1;
                 end
                 
                 // if next value is 0 go to expired
                 if (next_hours == 6'd0 && next_minutes == 6'd0 &&
                     next_seconds == 6'd0 && next_milliseconds == 7'd0) begin
                     next_run_state = EXPIRED;
-                    next_done      = 1'b1;
+                    next_done = 1'b1;
                 end
             end
         end
     end
 endmodule
+

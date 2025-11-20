@@ -2,11 +2,13 @@
 
 module stopwatch_tb();
 
-    logic clk, rst, en, start;
+    logic clk, rst, start;
+    logic [1:0] sel;
     logic [5:0] hours, minutes, seconds;
+    logic [6:0] milliseconds;
 
-    stopwatch dut (.clk(clk), .reset(rst), .en(en), .start(start), .hours(hours), .minutes(minutes),
-        .seconds(seconds));
+    stopwatch watchstop (.clk(clk), .reset(rst), .start(start), .sel(sel),
+        .hours(hours), .minutes(minutes), .seconds(seconds), .milliseconds(milliseconds));
 
 
     always begin
@@ -38,13 +40,12 @@ module stopwatch_tb();
     endtask
 
     task tick_seconds(input integer n);
-        integer i;
+        integer i, j;
         begin
             for (i = 0; i < n; i = i + 1) begin
-                @(negedge clk);
-                en = 1;
-                @(negedge clk);
-                en = 0;
+                for (j = 0; j < 100; j = j + 1) begin
+                    @(negedge clk);
+                end
             end
         end
     endtask
@@ -55,8 +56,8 @@ module stopwatch_tb();
 
         clk = 0;
         rst = 0;
-        en = 0;
         start = 0;
+        sel = 2'd1;
 
         #2
         reset();
@@ -70,10 +71,11 @@ module stopwatch_tb();
         #10
         pulse_start();
         
-        tick_seconds(65);
+        tick_seconds(200);
 
         #50
         $finish;
     end
 
 endmodule
+

@@ -3,8 +3,9 @@ module clock(
     input logic clk, //clock
     input logic reset, //reset active high
     input logic en, // enable (divided clock)
-    input logic inc, dec, // either increase of decrease
-    input logic state, // button to increment state
+    input logic inc, dec, // either increase of decrease //pb5, pb4    
+    input logic state, // button to increment state //pb6
+    input logic [1:0] sel,  // pb 1:0
     output logic [5:0] hours, // hours place
     output logic [5:0] minutes, // minutes plalce
     output logic [5:0] seconds // seconds place

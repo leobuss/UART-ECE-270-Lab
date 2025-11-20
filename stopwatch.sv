@@ -17,7 +17,7 @@ module stopwatch(
     mode_t mode, next_mode;
     
     
-    always_ff @ (posedge clk or posedge reset) 
+    always_ff @ (posedge clk or posedge reset) begin
         if (reset) begin
             hours <= 6'd0;
             minutes <= 6'd0;
@@ -30,7 +30,7 @@ module stopwatch(
             seconds <= next_seconds;
             mode <= next_mode;
         end
-    
+    end   
     
     always_comb begin
         next_hours = hours;
@@ -69,3 +69,4 @@ module stopwatch(
         end
     end
 endmodule
+

@@ -5,7 +5,7 @@ module display(
     input logic [5:0] tmr_hours, tmr_minutes, tmr_seconds,
     input logic [5:0] sw_hours, sw_minutes, sw_seconds,
     input logic [1:0] sel,
-    input logic clk, reset,
+    input logic reset,
     output logic [7:0] hours_tens_ss7,
     output logic [7:0] hours_ones_ss7,
     output logic [7:0] minutes_tens_ss7,

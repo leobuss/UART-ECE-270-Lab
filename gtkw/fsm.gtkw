@@ -1,0 +1,48 @@
+[*]
+[*] GTKWave Analyzer v3.3.116 (w)1999-2023 BSI
+[*]
+[dumpfile] "fsm.fst"
+[savefile] "gtkw/fsm.gtkw"
+[timestart] 1
+[size] 1920 1001
+[pos] -1 -1
+*-3.227281 8 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] FSM.
+[sst_width] 278
+[signals_width] 118
+[sst_expanded] 1
+[sst_vpaned_height] 297
+@28
+FSM.clk
+FSM.rst
+@200
+-
+@100000028
+FSM.state[3:0]
+@200
+-
+@800022
+FSM.keyout[4:0]
+@28
+(0)FSM.keyout[4:0]
+(1)FSM.keyout[4:0]
+(2)FSM.keyout[4:0]
+(3)FSM.keyout[4:0]
+(4)FSM.keyout[4:0]
+@1001200
+-group_end
+@c00028
+FSM.seq[7:0]
+@28
+(0)FSM.seq[7:0]
+(1)FSM.seq[7:0]
+(2)FSM.seq[7:0]
+(3)FSM.seq[7:0]
+(4)FSM.seq[7:0]
+(5)FSM.seq[7:0]
+(6)FSM.seq[7:0]
+(7)FSM.seq[7:0]
+@1401200
+-group_end
+[pattern_trace] 1
+[pattern_trace] 0

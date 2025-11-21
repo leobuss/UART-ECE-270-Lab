@@ -1,0 +1,32 @@
+[*]
+[*] GTKWave Analyzer v3.3.116 (w)1999-2023 BSI
+[*] Fri Feb 23 18:30:56 2024
+[*]
+[dumpfile] "display.fst"
+[dumpfile_mtime] "Fri Feb 23 18:24:20 2024"
+[dumpfile_size] 902
+[savefile] "gtkw/display.gtkw"
+[timestart] 1
+[size] 1803 1123
+[pos] -27 -24
+*-1.579748 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 278
+[signals_width] 110
+[sst_expanded] 1
+[sst_vpaned_height] 339
+@100000028
+DISPLAY.state[3:0]
+@28
+DISPLAY.hzX
+@200
+-
+@28
+DISPLAY.red
+DISPLAY.green
+DISPLAY.blue
+@200
+-
+@22
+DISPLAY.ss[63:0]
+[pattern_trace] 1
+[pattern_trace] 0

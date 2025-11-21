@@ -1,0 +1,24 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*]
+[dumpfile] "keysync.fst"
+[savefile] "keysync.gtkw"
+[timestart] 1
+[size] 1908 999
+[pos] -524 -243
+*-4.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] KEYSYNC.
+[sst_width] 214
+[signals_width] 118
+[sst_expanded] 1
+[sst_vpaned_height] 292
+@28
+KEYSYNC.clk
+KEYSYNC.keyclk
+@22
+KEYSYNC.keyin[19:0]
+KEYSYNC.keyout[4:0]
+@28
+KEYSYNC.rst
+[pattern_trace] 1
+[pattern_trace] 0

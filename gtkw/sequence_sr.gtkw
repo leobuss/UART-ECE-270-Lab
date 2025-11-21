@@ -1,0 +1,33 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*]
+[dumpfile] "sequence_sr.fst"
+[savefile] "sequence_sr.gtkw"
+[timestart] 1
+[size] 1430 600
+[pos] -1 -1
+*-2.335349 9 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 214
+[signals_width] 94
+[sst_expanded] 1
+[sst_vpaned_height] 151
+@28
+SEQUENCE_SR.button
+SEQUENCE_SR.clk
+SEQUENCE_SR.en
+SEQUENCE_SR.rst
+@800023
+SEQUENCE_SR.seq[7:0]
+@29
+(0)SEQUENCE_SR.seq[7:0]
+(1)SEQUENCE_SR.seq[7:0]
+(2)SEQUENCE_SR.seq[7:0]
+(3)SEQUENCE_SR.seq[7:0]
+(4)SEQUENCE_SR.seq[7:0]
+(5)SEQUENCE_SR.seq[7:0]
+(6)SEQUENCE_SR.seq[7:0]
+(7)SEQUENCE_SR.seq[7:0]
+@1001201
+-group_end
+[pattern_trace] 1
+[pattern_trace] 0

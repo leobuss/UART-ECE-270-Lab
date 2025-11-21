@@ -1,0 +1,22 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*]
+[dumpfile] "clock_psc.fst"
+[savefile] "clock_psc.gtkw"
+[timestart] 1
+[size] 1908 999
+[pos] -161 -185
+*-12.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 214
+[signals_width] 94
+[sst_expanded] 1
+[sst_vpaned_height] 292
+@28
+CLOCK_PSC.clk
+CLOCK_PSC.hzX
+@25
+CLOCK_PSC.lim[7:0]
+@28
+CLOCK_PSC.rst
+[pattern_trace] 1
+[pattern_trace]

@@ -40,29 +40,29 @@ logic [6:0] milliseconds;
 
 logic timer_d, ls_d, strobe;
 
+logic [19:0] buttons;
+
+logic [4:0] bout;
 
 
-//logic [4:0] bout;
 
+encoder encode(.in(bout), .out(buttons));
 
+synckey debounce(.bin(pb[19:0]), .bout(bout), .clk(hz100), .rst(buttons[16]), .strobe(red));
 
-//encoder encode(.in(bout), .out(pb));
+selectLatch gurt(.sel(buttons[1:0]), .clk(hz100),.rst(buttons[16]),.out(sel));
 
-//synckey debounce(.bin(pb[19:0]), .bout(bout), .clk(hz100), .rst(pb[16]));
+timer tierer(.sel(sel), .clk(hz100), .reset(buttons[16]), .inc(buttons[5]), .dec(buttons[4]), .start(buttons[7]),
+            .state (buttons[6]), .hours(timer_h), .minutes(timer_min),.seconds(timer_s), .done(timer_d)); 
 
-selectLatch gurt(.sel(pb[1:0]), .clk(hz100),.rst(pb[16]),.out(sel));
-
-timer tierer(.sel(sel), .clk(hz100), .reset(pb[16]), .inc(pb[5]), .dec(pb[4]), .start(pb[7]),
-            .state (pb[6]), .hours(timer_h), .minutes(timer_min),.seconds(timer_s), .done(timer_d)); 
-
-clock cloc(.clk(hz100), .reset(pb[16]), .inc(pb[5]), .dec(pb[4]), 
-          .state(pb[6]), .sel(sel), .hours(clock_h), .minutes(clock_min),
+clock cloc(.clk(hz100), .reset(buttons[16]), .inc(buttons[5]), .dec(buttons[4]), 
+          .state(buttons[6]), .sel(sel), .hours(clock_h), .minutes(clock_min),
           .seconds(clock_s));
 
-stopwatch watch(.clk(hz100), .reset(pb[16]), .start(pb[6]), .sel(sel), .hours(stopwatch_h),
+stopwatch watch(.clk(hz100), .reset(buttons[16]), .start(buttons[6]), .sel(sel), .hours(stopwatch_h),
                 .minutes(stopwatch_min), .seconds(stopwatch_s), .milliseconds(milliseconds));
 
-led_show soStylish(.clk(hz100), .reset(pb[16]), .sel(sel), .done(ls_d), .left_leds(left[7:0]),
+led_show soStylish(.clk(hz100), .reset(buttons[16]), .sel(sel), .done(ls_d), .left_leds(left[7:0]),
                     .right_leds(right[7:0]));
 
 display showItOff(
@@ -77,7 +77,7 @@ display showItOff(
     .sw_minutes    (stopwatch_min),
     .sw_seconds    (stopwatch_s),
     .sel           (sel),
-    .rst         (pb[16]),
+    .rst         (buttons[16]),
     .hours_tens_ss7      (ss7),
     .hours_ones_ss7      (ss6),
     .minutes_tens_ss7    (ss5),
@@ -285,7 +285,7 @@ module clock(
     input logic reset, //reset active high
     input logic inc, dec, // either increase of decrease //buttons5, buttons4    
     input logic state, // button to increment state //buttons6
-    input logic [1:0] sel,  // pb 1:0
+    input logic [1:0] sel,  // buttons 1:0
     output logic [5:0] hours, // hours place
     output logic [5:0] minutes, // minutes plalce
     output logic [5:0] seconds // seconds place
@@ -611,7 +611,7 @@ module led_show(
 
 endmodule
 module selectLatch(
-    input logic [1:0] sel, //pb 1:0
+    input logic [1:0] sel, //buttons 1:0
     input logic clk, rst,
     output logic [1:0] out //out
 );
@@ -723,110 +723,84 @@ module stopwatch(
 endmodule
 
 
-// module encoder (
-//     input  logic [4:0]  in,
-//     output logic [19:0] out
-// );
+module encoder (
+    input  logic [4:0]  in,
+    output logic [19:0] out
+);
 
-//     always_comb begin
-//         case (in)
-//             5'd0 : out = 20'b00000000000000000001;
-//             5'd1 : out = 20'b00000000000000000010;
-//             5'd2 : out = 20'b00000000000000000100;
-//             5'd3 : out = 20'b00000000000000001000;
-//             5'd4 : out = 20'b00000000000000010000;
-//             5'd5 : out = 20'b00000000000000100000;
-//             5'd6 : out = 20'b00000000000001000000;
-//             5'd7 : out = 20'b00000000000010000000;
-//             5'd8 : out = 20'b00000000000100000000;
-//             5'd9 : out = 20'b00000000001000000000;
-//             5'd10: out = 20'b00000000010000000000;
-//             5'd11: out = 20'b00000000100000000000;
-//             5'd12: out = 20'b00000001000000000000;
-//             5'd13: out = 20'b00000010000000000000;
-//             5'd14: out = 20'b00000100000000000000;
-//             5'd15: out = 20'b00001000000000000000;
-//             5'd16: out = 20'b00010000000000000000;
-//             5'd17: out = 20'b00100000000000000000;
-//             5'd18: out = 20'b01000000000000000000;
-//             5'd19: out = 20'b10000000000000000000;
-//             default: out = 20'd0;
-//         endcase
-//     end
+    always_comb begin
+        case (in)
+            5'd0 : out = 20'b00000000000000000001;
+            5'd1 : out = 20'b00000000000000000010;
+            5'd2 : out = 20'b00000000000000000100;
+            5'd3 : out = 20'b00000000000000001000;
+            5'd4 : out = 20'b00000000000000010000;
+            5'd5 : out = 20'b00000000000000100000;
+            5'd6 : out = 20'b00000000000001000000;
+            5'd7 : out = 20'b00000000000010000000;
+            5'd8 : out = 20'b00000000000100000000;
+            5'd9 : out = 20'b00000000001000000000;
+            5'd10: out = 20'b00000000010000000000;
+            5'd11: out = 20'b00000000100000000000;
+            5'd12: out = 20'b00000001000000000000;
+            5'd13: out = 20'b00000010000000000000;
+            5'd14: out = 20'b00000100000000000000;
+            5'd15: out = 20'b00001000000000000000;
+            5'd16: out = 20'b00010000000000000000;
+            5'd17: out = 20'b00100000000000000000;
+            5'd18: out = 20'b01000000000000000000;
+            5'd19: out = 20'b10000000000000000000;
+            default: out = 20'd0;
+        endcase
+    end
 
-// endmodule
+endmodule
 
-// module synckey(
-//     input  logic [19:0] bin,      // Raw button inputs
-//     output logic [4:0] bout,      // 5-bit encoded output (0-19)
-//     input  logic clk,             // 100Hz clock
-//     input  logic rst
-// );
 
-//     // Registers to hold button state
-//     logic [19:0] btn_state;       // Current stable button state
-//     logic [19:0] btn_prev;        // Previous button state
-//     logic [1:0] stable_cnt [19:0]; // Counter for each button (need 2 cycles stable)
-    
-//     // Debounce each button - need 2 consecutive samples the same
-//     always_ff @(posedge clk or posedge rst) begin
-//         if (rst) begin
-//             for (int i = 0; i < 20; i++) begin
-//                 stable_cnt[i] <= 2'd0;
-//                 btn_state[i] <= 1'b0;
-//             end
-//         end else begin
-//             for (int i = 0; i < 20; i++) begin
-//                 if (bin[i] == btn_state[i]) begin
-//                     // Input matches current state - reset counter
-//                     stable_cnt[i] <= 2'd0;
-//                 end else begin
-//                     // Input different - count up
-//                     if (stable_cnt[i] == 2'd1) begin
-//                         // Been different for 2 cycles, accept new state
-//                         btn_state[i] <= bin[i];
-//                         stable_cnt[i] <= 2'd0;
-//                     end else begin
-//                         stable_cnt[i] <= stable_cnt[i] + 2'd1;
-//                     end
-//                 end
-//             end
-//         end
-//     end
-    
-//     // Detect rising edges
-//     always_ff @(posedge clk or posedge rst) begin
-//         if (rst) begin
-//             btn_prev <= 20'd0;
-//         end else begin
-//             btn_prev <= btn_state;
-//         end
-//     end
-    
-//     // Output the highest priority button that just went high
-//     always_ff @(posedge clk or posedge rst) begin
-//         if (rst) begin
-//             bout <= 5'd0;
-//         end else begin
-//             logic [19:0] rising_edges;
-//             logic found;
+module synckey(
+    input logic [19:0] bin,
+    output logic [4:0] bout,
+    input logic clk, rst,
+    output logic strobe
+);
+
+
+
+logic [4:0] high, n_out;
+logic initStrobe;
+logic Q;
+
+
+always_ff @(posedge clk, posedge rst) begin
+
+    if(rst) begin 
+        Q <=0;
+        strobe <= 0;
+        bout <= 0;
+    end
+    else begin
+        bout <= n_out;
+        Q<=initStrobe;
+        strobe <= Q;
+    end
+
+end
+
+always_comb begin   
+
+    initStrobe = |bin;
+    high = 5'd0;
+
+    //bout = 5'd0;
+    for(int i = 0; i<20; i++) begin
+        if(bin[i]) begin
+            high = i[4:0];
             
-//             // Find rising edges (0->1 transitions)
-//             rising_edges <= btn_state & ~btn_prev;
-            
-//             // Priority encode - find highest button number with rising edge
-//             bout <= 5'd0;
-//             found <= 1'b0;
-//             for (int i = 19; i >= 0; i--) begin
-//                 if (rising_edges[i] && !found) begin
-//                     bout <= i[4:0];
-//                     found <= 1'b1;
-//                 end
-//             end
-            
-//             // If no edges detected, output 0 (which would be button 0)
-//             // Your top module should check if there was actually a press
-//         end
-//     end
+        end
+    end
 
-// endmodule
+    n_out = high;
+
+end
+
+endmodule

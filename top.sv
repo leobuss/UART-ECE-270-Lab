@@ -36,34 +36,47 @@ logic [5:0] timer_h, timer_min, timer_s,
             stopwatch_h, stopwatch_min, stopwatch_s,
             clock_h, clock_min, clock_s;
 
+
 logic [6:0] milliseconds;
 
-logic timer_d, ls_d, strobe;
+logic timer_d, strobe;
 
 logic [19:0] buttons;
 
-logic [4:0] bout;
+// logic [4:0] bout;
+
+logic inc_div, dec_div, pb6, pb7;
+
+assign buttons = pb[19:0];
 
 
+// encoder encode(.in(bout), .out(buttons));
 
-encoder encode(.in(bout), .out(buttons));
+// synckey debounce(.bin(pb[19:0]), .bout(bout), .clk(hz100), .rst(buttons[16]), .strobe(red));
 
-synckey debounce(.bin(pb[19:0]), .bout(bout), .clk(hz100), .rst(buttons[16]), .strobe(red));
+selectLatch gurt(.sel(buttons[2:0]), .clk(hz100),.rst(buttons[16]),.out(sel));
 
-selectLatch gurt(.sel(buttons[1:0]), .clk(hz100),.rst(buttons[16]),.out(sel));
+assign left[1:0] = sel;
 
-timer tierer(.sel(sel), .clk(hz100), .reset(buttons[16]), .inc(buttons[5]), .dec(buttons[4]), .start(buttons[7]),
-            .state (buttons[6]), .hours(timer_h), .minutes(timer_min),.seconds(timer_s), .done(timer_d)); 
 
-clock cloc(.clk(hz100), .reset(buttons[16]), .inc(buttons[5]), .dec(buttons[4]), 
-          .state(buttons[6]), .sel(sel), .hours(clock_h), .minutes(clock_min),
+pb_divider inc_divide(.clk(hz100), .in(buttons[6]), .out(pb6));
+pb_divider inc_divir(.clk(hz100), .in(buttons[7]), .out(pb7));
+pb_divider inc_divider(.clk(hz100), .in(buttons[5]), .out(inc_div));
+
+pb_divider dec_divider(.clk(hz100), .in(buttons[4]), .out(dec_div));
+
+timer tierer(.sel(sel), .clk(hz100), .reset(buttons[16]), .inc(inc_div), .dec(dec_div), .start(pb7),
+            .state (pb6), .hours(timer_h), .minutes(timer_min),.seconds(timer_s), .done(timer_d)); 
+
+clock cloc(.clk(hz100), .reset(buttons[16]), .inc(inc_div), .dec(dec_div), 
+          .state(pb6), .sel(sel), .hours(clock_h), .minutes(clock_min),
           .seconds(clock_s));
 
-stopwatch watch(.clk(hz100), .reset(buttons[16]), .start(buttons[6]), .sel(sel), .hours(stopwatch_h),
+stopwatch watch(.clk(hz100), .reset(buttons[16]), .start(pb6), .sel(sel), .hours(stopwatch_h),
                 .minutes(stopwatch_min), .seconds(stopwatch_s), .milliseconds(milliseconds));
 
-led_show soStylish(.clk(hz100), .reset(buttons[16]), .sel(sel), .done(ls_d), .left_leds(left[7:0]),
-                    .right_leds(right[7:0]));
+//led_show soStylish(.clk(hz100), .reset(buttons[16]), .sel(sel), .done(timer_d), .left_leds(left[7:0]),
+                  //  .right_leds(right[7:0]));
 
 display showItOff(
     .clk_hours     (clock_h), 
@@ -84,8 +97,8 @@ display showItOff(
     .minutes_ones_ss7    (ss4),
     .seconds_tens_ss7    (ss3),
     .seconds_ones_ss7    (ss2),
-    .milliseconds_ones_ss7 (ss1),
-    .milliseconds_tens_ss7 (ss0)
+    .milliseconds_ones_ss7 (ss0),
+    .milliseconds_tens_ss7 (ss1)
 );
 endmodule
 
@@ -171,7 +184,7 @@ module timer(
             if (state) begin
                 next_mode = HOURS;
                 next_run_state = STOPPED;
-                next_done = 1'b0;
+                next_done = 1'b1;
             end
         end
 
@@ -252,6 +265,34 @@ module timer(
 endmodule
 
 
+module pb_divider (
+    input logic clk,
+    input logic in,
+    output logic out
+);
+    
+  logic [4:0] count;
+  initial begin
+      count   = 5'd0;
+      out = 1'b0;
+  end
+
+    
+    always_ff @(posedge clk) begin
+      if (count == 5'd24) begin
+            count   <= 5'd0;
+            out <= in;
+        end
+        else begin
+            count   <= count + 5'd1;
+            out <= 1'b0;
+        end
+    end
+endmodule
+
+
+
+
 
 
 
@@ -330,7 +371,7 @@ module clock(
         next_mode = mode;
         
         // chnage  mode
-        if (state) begin
+        if (state && sel == 2'd1) begin
             case (mode)
                 HOURS: next_mode = MINUTES;
                 MINUTES: next_mode = CLOCK;
@@ -611,27 +652,34 @@ module led_show(
 
 endmodule
 module selectLatch(
-    input logic [1:0] sel, //buttons 1:0
+    input logic [2:0] sel, //buttons 1:0
     input logic clk, rst,
     output logic [1:0] out //out
 );
 
-logic [1:0] n_out;
+typedef enum logic [1:0] {STOPWATCH = 2'b11, TIMER=2'd2, CLOCK=2'd1} state_t;
+state_t state, next_state;
+
 
 always_ff @(posedge clk, posedge rst) begin
     if(rst) begin
-        out <= 2'd1;
+        state <= CLOCK;
     end else begin
-        out <= n_out;
+        state <= next_state;
     end
 end 
 
 always_comb begin
-    if (sel == 2'd0) begin
-        n_out = out;
-    end else begin
-        n_out = sel;
+    next_state = state;
+    if (sel == 3'd1) begin
+        next_state = CLOCK;
+    end else if(sel == 3'd2) begin
+        next_state = TIMER;
+    end else if(sel == 3'd4) begin
+        next_state = STOPWATCH;
     end
+
+    out = state;
 end
 
 

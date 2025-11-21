@@ -39,6 +39,29 @@ stopwatch watch(.clk(hz100), .reset(pb[16]), .start(pb[6]), .sel(sel), .hours(st
 led_show soStylish(.clk(hz100), .reset(pb[16]), .sel(sel), .done(ls_d), .left_leds(left[7:0]),
                     .right_leds(right[7:0]));
 
+display showItOff(
+    .clk_hours     (clock_h), 
+    .clk_minutes   (clock_min),
+    .clk_seconds   (clock_s),
+    .sw_milliseconds (milliseconds),
+    .tmr_hours     (timer_h),
+    .tmr_minutes   (timer_min),
+    .tmr_seconds   (timer_s),
+    .sw_hours      (stopwatch_h),
+    .sw_minutes    (stopwatch_min),
+    .sw_seconds    (stopwatch_s),
+    .sel           (sel),
+    .reset         (pb[16]),
+    .hours_tens_ss7      (ss7),
+    .hours_ones_ss7      (ss6),
+    .minutes_tens_ss7    (ss5),
+    .minutes_ones_ss7    (ss4),
+    .seconds_tens_ss7    (ss3),
+    .seconds_ones_ss7    (ss2),
+    .milliseconds_ones_ss7 (ss1),
+    .milliseconds_tens_ss7 (ss0)
+);
+
 
 endmodule
 

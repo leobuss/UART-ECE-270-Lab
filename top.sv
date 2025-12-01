@@ -59,8 +59,8 @@ clock cloc(.clk(hz100), .reset(buttons[16]), .inc(inc_div), .dec(dec_div),
           .state(pb6), .sel(sel), .hours(clock_h), .minutes(clock_min),
           .seconds(clock_s));
 // instantiate stopwatch module
-stopwatch watch(.clk(hz100), .reset(buttons[16]), .start(pb6), .sel(sel), .hours(stopwatch_h),
-                .minutes(stopwatch_min), .seconds(stopwatch_s), .milliseconds(milliseconds));
+stopwatch watch(.clk(hz100), .reset(buttons[16]), .start(buttons[6]), .sel(sel), .hours(stopwatch_h),
+                .minutes(stopwatch_min), .seconds(stopwatch_s), .milliseconds(milliseconds), .sw_rst(pb7));
 
 //led_show soStylish(.clk(hz100), .reset(buttons[16]), .sel(sel), .done(timer_d), .left_leds(left[7:0]),
                   //  .right_leds(right[7:0]));
@@ -685,6 +685,7 @@ module stopwatch(
     input logic clk, //clock
     input logic reset, //reset active high
     input logic start, // button to start/stop
+    input logic sw_rst,  // stopwatch ONLY reset
     input logic [1:0] sel, //must be 3
     output logic [5:0] hours, // hours place
     output logic [5:0] minutes, // minutes plalce
@@ -760,6 +761,14 @@ module stopwatch(
             else begin
                 next_milliseconds = milliseconds + 7'd1;
             end
+        end
+
+        if (sw_rst && sel == 2'd3) begin
+            next_hours = 6'd0;
+            next_minutes = 6'd0;
+            next_seconds = 6'd0;
+            next_milliseconds = 7'd0;
+            next_mode = STOPPED;
         end
     end
 endmodule

@@ -38,31 +38,33 @@ assign buttons = pb[19:0];
 // encoder encode(.in(bout), .out(buttons));
 
 // synckey debounce(.bin(pb[19:0]), .bout(bout), .clk(hz100), .rst(buttons[16]), .strobe(red));
-
+  
+  // Selects which output to show (and be affected by inputs)
 selectLatch gurt(.sel(buttons[2:0]), .clk(hz100),.rst(buttons[16]),.out(sel));
 
+// show current selection
 assign left[1:0] = sel;
 
-
+  // Make it so the inputs only read one tick per .25 seconds (makes adjustment easier)
 pb_divider inc_divide(.clk(hz100), .in(buttons[6]), .out(pb6));
 pb_divider inc_divir(.clk(hz100), .in(buttons[7]), .out(pb7));
 pb_divider inc_divider(.clk(hz100), .in(buttons[5]), .out(inc_div));
-
 pb_divider dec_divider(.clk(hz100), .in(buttons[4]), .out(dec_div));
 
+// instantiate timer module
 timer tierer(.sel(sel), .clk(hz100), .reset(buttons[16]), .inc(inc_div), .dec(dec_div), .start(pb7),
             .state (pb6), .hours(timer_h), .minutes(timer_min),.seconds(timer_s), .done(timer_d)); 
-
+// instantiate clock module
 clock cloc(.clk(hz100), .reset(buttons[16]), .inc(inc_div), .dec(dec_div), 
           .state(pb6), .sel(sel), .hours(clock_h), .minutes(clock_min),
           .seconds(clock_s));
-
+// instantiate stopwatch module
 stopwatch watch(.clk(hz100), .reset(buttons[16]), .start(pb6), .sel(sel), .hours(stopwatch_h),
                 .minutes(stopwatch_min), .seconds(stopwatch_s), .milliseconds(milliseconds));
 
 //led_show soStylish(.clk(hz100), .reset(buttons[16]), .sel(sel), .done(timer_d), .left_leds(left[7:0]),
                   //  .right_leds(right[7:0]));
-
+// instantiate display module
 display showItOff(
     .clk_hours     (clock_h), 
     .clk_minutes   (clock_min),
@@ -87,6 +89,7 @@ display showItOff(
 );
 endmodule
 
+// timer module
 module timer(
     input logic clk, //clock
     input logic reset, //reset active high
@@ -249,7 +252,7 @@ module timer(
     end
 endmodule
 
-
+// module to smooth input signals
 module pb_divider (
     input logic clk,
     input logic in,
@@ -280,7 +283,7 @@ endmodule
 
 
 
-
+// module to divide an input number into tens and ones digit
 module bin_to_bcd(
     input  logic [6:0] num, 
     output logic [3:0] tens, // tens digit 
@@ -305,6 +308,8 @@ module bin_to_bcd(
         ones = tmp[3:0];
     end
 endmodule
+
+// clock module
 module clock(
 
     input logic clk, //clock
@@ -423,7 +428,7 @@ module clock(
     end
 endmodule
 
-
+// module to deal with displaying on the 7seg display
 module display(
     input logic [5:0] clk_hours, clk_minutes, clk_seconds,
     input logic [6:0] sw_milliseconds,
@@ -519,7 +524,7 @@ module display(
 endmodule
 
 
-// agartha is ours!
+// change number into a seg7 capable output
 module hex2seg7 (
     input  logic [3:0] hex,
     output logic [6:0] seg
@@ -547,7 +552,7 @@ module hex2seg7 (
     end
 endmodule
 
-
+// LED show to alert that timer is done, not implemented
 module led_show(
     input logic clk,
     input logic reset,
@@ -636,6 +641,8 @@ module led_show(
     end
 
 endmodule
+
+// depending on input, change the current display signal (if no input, remain same)
 module selectLatch(
     input logic [2:0] sel, //buttons 1:0
     input logic clk, rst,
@@ -671,6 +678,8 @@ end
 
 
 endmodule
+
+// stopwatch module
 module stopwatch(
 
     input logic clk, //clock
@@ -755,7 +764,7 @@ module stopwatch(
     end
 endmodule
 
-
+// not used
 module encoder (
     input  logic [4:0]  in,
     output logic [19:0] out
@@ -789,7 +798,7 @@ module encoder (
 
 endmodule
 
-
+// not used
 module synckey(
     input logic [19:0] bin,
     output logic [4:0] bout,

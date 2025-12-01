@@ -1,26 +1,27 @@
+// change number into a seg7 capable output
 module hex2seg7 (
     input  logic [3:0] hex,
     output logic [6:0] seg
 );
     always_comb begin
         unique case (hex)
-            4'h0: seg = 7'b1000000; 
-            4'h1: seg = 7'b1111001; 
-            4'h2: seg = 7'b0100100; 
-            4'h3: seg = 7'b0110000; 
-            4'h4: seg = 7'b0011001; 
-            4'h5: seg = 7'b0010010; 
-            4'h6: seg = 7'b0000010; 
-            4'h7: seg = 7'b1111000; 
-            4'h8: seg = 7'b0000000; 
-            4'h9: seg = 7'b0010000; 
-            4'hA: seg = 7'b0001000; 
-            4'hB: seg = 7'b0000011; 
-            4'hC: seg = 7'b1000110; 
-            4'hD: seg = 7'b0100001; 
-            4'hE: seg = 7'b0000110; 
-            4'hF: seg = 7'b0001110; 
-            default: seg = 7'b1111111; 
+   4'd0 : begin seg = 7'b0111111; end
+            4'd1 : begin seg = 7'b0000110; end
+            4'd2 : begin seg = 7'b1011011; end
+            4'd3 : begin seg = 7'b1001111; end
+            4'd4 : begin seg = 7'b1100110; end
+            4'd5 : begin seg = 7'b1101101; end
+            4'd6 : begin seg = 7'b1111101; end
+            4'd7 : begin seg = 7'b0000111; end
+            4'd8 : begin seg = 7'b1111111; end
+            4'd9 : begin seg = 7'b1100111; end
+            4'hA : begin seg = 7'b1110111; end
+            4'hB : begin seg = 7'b1111100; end
+            4'hC : begin seg = 7'b0111001; end
+            4'hD : begin seg = 7'b1011110; end
+            4'hE : begin seg = 7'b1111001; end
+            4'hF : begin seg = 7'b1110001; end
+            default: begin seg = 7'd0; end
         endcase
     end
 endmodule

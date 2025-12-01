@@ -1,19 +1,20 @@
+// clock module
 module clock(
 
     input logic clk, //clock
     input logic reset, //reset active high
-    input logic inc, dec, // either increase of decrease //pb5, pb4    
-    input logic state, // button to increment state //pb6
-    input logic [1:0] sel,  // pb 1:0
+    input logic inc, dec, // either increase of decrease //buttons5, buttons4    
+    input logic state, // button to increment state //buttons6
+    input logic [1:0] sel,  // buttons 1:0
     output logic [5:0] hours, // hours place
     output logic [5:0] minutes, // minutes plalce
-    output logic [5:0] seconds, // seconds place
+    output logic [5:0] seconds // seconds place
     //output logic [6:0] milliseconds // milliseconds placee
     
 
 );
 
-    logic [6:0] milliseconds // milliseconds placee
+    logic [6:0] milliseconds; // milliseconds placee
 
     // local variables
     typedef enum logic [1:0] {HOURS, MINUTES, CLOCK} mode_t;
@@ -49,7 +50,7 @@ module clock(
         next_mode = mode;
         
         // chnage  mode
-        if (state) begin
+        if (state && sel == 2'd1) begin
             case (mode)
                 HOURS: next_mode = MINUTES;
                 MINUTES: next_mode = CLOCK;

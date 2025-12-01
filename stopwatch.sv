@@ -1,3 +1,4 @@
+// stopwatch module
 module stopwatch(
 
     input logic clk, //clock
@@ -43,7 +44,7 @@ module stopwatch(
         next_milliseconds = milliseconds;
         next_mode = mode;
         
-        if (start && sel != 2'd3) begin
+        if (start && sel == 2'd3) begin
             case (mode)
                 STOPPED: next_mode = RUNNING;
                 RUNNING: next_mode = STOPPED;
@@ -81,4 +82,3 @@ module stopwatch(
         end
     end
 endmodule
-

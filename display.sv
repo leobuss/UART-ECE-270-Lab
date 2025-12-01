@@ -1,12 +1,11 @@
-`default_nettype none
-
+// module to deal with displaying on the 7seg display
 module display(
     input logic [5:0] clk_hours, clk_minutes, clk_seconds,
     input logic [6:0] sw_milliseconds,
     input logic [5:0] tmr_hours, tmr_minutes, tmr_seconds,
     input logic [5:0] sw_hours, sw_minutes, sw_seconds,
     input logic [1:0] sel,
-    input logic clk,
+    input logic rst,
     output logic [7:0] hours_tens_ss7,
     output logic [7:0] hours_ones_ss7,
     output logic [7:0] minutes_tens_ss7,
@@ -93,6 +92,3 @@ module display(
     assign milliseconds_ones_ss7 = {1'b0, ms_ones_seg};
 
 endmodule
-
-
-// agartha is ours!

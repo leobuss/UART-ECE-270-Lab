@@ -1,5 +1,6 @@
 `default_nettype none
 
+// module to divide an input number into tens and ones digit
 module bin_to_bcd(
     input  logic [6:0] num, 
     output logic [3:0] tens, // tens digit 
@@ -7,8 +8,8 @@ module bin_to_bcd(
 );
 
     always_comb begin
-        integer tmp;
-        integer t;
+        logic [6:0] tmp;
+        logic [6:0] t;
 
         tmp = num; 
         t   = 0;

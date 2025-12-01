@@ -116,3 +116,5 @@ module clock(
         end
     end
 endmodule
+
+//suggesttions for improvement / change, make it 12 hour, add in A/P signal logic so that in place of milliseconds it shows an A or a P to show AM/PM

@@ -1,4 +1,4 @@
-
+// module to smooth input signals
 module pb_divider (
     input logic clk,
     input logic in,
@@ -23,6 +23,3 @@ module pb_divider (
         end
     end
 endmodule
-
-
-

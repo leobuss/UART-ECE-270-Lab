@@ -1,3 +1,4 @@
+// timer module
 module timer(
     input logic clk, //clock
     input logic reset, //reset active high
@@ -80,7 +81,7 @@ module timer(
             if (state) begin
                 next_mode = HOURS;
                 next_run_state = STOPPED;
-                next_done = 1'b0;
+                next_done = 1'b1;
             end
         end
 
@@ -159,6 +160,3 @@ module timer(
         end
     end
 endmodule
-
-
-

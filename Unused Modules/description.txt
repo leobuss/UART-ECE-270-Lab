@@ -1,0 +1,8 @@
+This folder olds any obsolete modules that we created
+
+These include modules such as clock_divider.sv, which was created before we switched to a 100hz clock_divider
+
+Also includes modules such as synckey and encode which were created for ease of use but were replaced by pb_divider
+
+
+We had too strong of an emotional connection to them to delete them, so they stay in this folder.
